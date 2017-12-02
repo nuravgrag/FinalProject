@@ -119,34 +119,6 @@ public class IntArrayBag implements Cloneable
 
 
    /**
-   * Add new elements to this bag. If the new elements would take this
-   * bag beyond its current capacity, then the capacity is increased
-   * before adding the new elements.
-   * @param elements
-   *   (a variable-arity argument)
-   *   one or more new elements that are being inserted
-   * @postcondition
-   *   A new copy of the element has been added to this bag.
-   * @exception OutOfMemoryError
-   *   Indicates insufficient memory for increasing the bag's capacity.
-   * @note
-   *   An attempt to increase the capacity beyond
-   *   Integer.MAX_VALUE will cause the bag to fail with an
-   *   arithmetic overflow.
-   **/
-   public void addMany(int... elements)
-   {
-      if (manyItems + elements.length > data.length)
-      {  // Ensure twice as much space as we need.
-         ensureCapacity((manyItems + elements.length)*2);
-      }
-
-      System.arraycopy(elements, 0, data, manyItems, elements.length);
-      manyItems += elements.length;
-   }
-
-
-   /**
    * Add the contents of another bag to this bag.
    * @param addend
    *   a bag whose contents will be added to this bag
@@ -328,43 +300,6 @@ public class IntArrayBag implements Cloneable
          System.arraycopy(data, 0, trimmedArray, 0, manyItems);
          data = trimmedArray;
       }
-   }
-      
-
-   /**
-   * Create a new bag that contains all the elements from two other bags.
-   * @param b1
-   *   the first of two bags
-   * @param b2
-   *   the second of two bags
-   * @precondition
-   *   Neither b1 nor b2 is null, and
-   *   b1.getCapacity( ) + b2.getCapacity( ) &lt;= Integer.MAX_VALUE.
-   * @return
-   *   the union of b1 and b2
-   * @exception NullPointerException
-   *   Indicates that one of the arguments is null.
-   * @exception OutOfMemoryError
-   *   Indicates insufficient memory for the new bag.
-   * @note
-   *   An attempt to create a bag with a capacity beyond
-   *   Integer.MAX_VALUE will cause an arithmetic overflow
-   *   that will cause the bag to fail. Such large collections should use
-   *   a different bag implementation.
-   **/   
-   public static IntArrayBag union(IntArrayBag b1, IntArrayBag b2)
-   {
-      // If either b1 or b2 is null, then a NullPointerException is thrown. 
-      // In the case that the total number of items is beyond
-      // Integer.MAX_VALUE, there will be an arithmetic overflow and
-      // the bag will fail.   
-      IntArrayBag answer = new IntArrayBag(b1.getCapacity( ) + b2.getCapacity( ));
-      
-      System.arraycopy(b1.data, 0, answer.data, 0, b1.manyItems);
-      System.arraycopy(b2.data, 0, answer.data, b1.manyItems, b2.manyItems);
-      answer.manyItems = b1.manyItems + b2.manyItems;
-      
-      return answer;
    }
       
 }
