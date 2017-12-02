@@ -54,12 +54,21 @@ public class IntLinkedBag implements Cloneable
 
 
    //gets an element based on the index
-   public int getIndex(int i) {
+   public int get(int i) {
       IntNode trav = head;
       for(int j = 0; j < i; j++)
          trav = trav.getLink();
 
       return trav.getData();
+   }
+
+   //gets an element based on the index
+   public void set(int i, int element) {
+      IntNode trav = head;
+      for(int j = 0; j < i; j++)
+         trav = trav.getLink();
+
+      trav.addNodeAfter(element);
    }
         
  
@@ -73,9 +82,17 @@ public class IntLinkedBag implements Cloneable
    *   Indicates insufficient memory a new IntNode.
    **/
    public void add(int element)
-   {      
-      head = new IntNode(element, head);
-      manyNodes++;
+   {
+      if(manyNodes == 0)
+         head = new IntNode(element, null);
+      else {
+         IntNode trav = head;
+         while(trav.getLink() != null && trav.getData() < element) {
+            trav = trav.getLink();
+         }
+         trav.addNodeAfter(element);
+         manyNodes++;
+      }
    }
 
 
@@ -94,6 +111,7 @@ public class IntLinkedBag implements Cloneable
    **/
    public void addAll(IntLinkedBag addend)
    {
+
       IntNode[ ] copyInfo;
       
       // The precondition indicates that addend is not null. If it is null,
@@ -105,28 +123,12 @@ public class IntLinkedBag implements Cloneable
          head = copyInfo[0];        // and set my own head to the head of the copy.
          manyNodes += addend.manyNodes;
       }
+
+      MergesortLinkedList.MergesortLinkedList(this, 0, manyNodes);
+
    }
 
      
-   /**
-   * Add new elements to this bag. If the new elements would take this
-   * bag beyond its current capacity, then the capacity is increased
-   * before adding the new elements.
-   * @param elements
-   *   (a variable-arity argument)
-   *   one or more new elements that are being inserted
-   * @postcondition
-   *   A new copy of the element has been added to this bag.
-   * @exception OutOfMemoryError
-   *   Indicates insufficient memory to increase the size of the bag.
-   **/
-   public void addMany(int... elements)
-   {
-      // Activate the ordinary add method for each integer in the
-      // elements array.
-      for (int i : elements)
-          add(i); 	       
-   }
 
      
    /**
@@ -247,33 +249,6 @@ public class IntLinkedBag implements Cloneable
    public int size( )
    {
       return manyNodes;
-   }
-   
-
-   /**
-   * Create a new bag that contains all the elements from two other bags.
-   * @param b1
-   *   the first of two bags
-   * @param b2
-   *   the second of two bags
-   * @precondition
-   *   Neither b1 nor b2 is null.
-   * @return
-   *   the union of b1 and b2
-   * @exception IllegalArgumentException
-   *   Indicates that one of the arguments is null.
-   * @exception OutOfMemoryError
-   *   Indicates insufficient memory for the new bag.
-   **/   
-   public static IntLinkedBag union(IntLinkedBag b1, IntLinkedBag b2)
-   {       
-      // The precondition requires that neither b1 nor b2 is null.
-      // If one of them is null, then addAll will throw a NullPointerException.  
-      IntLinkedBag answer = new IntLinkedBag( );
-      
-      answer.addAll(b1);
-      answer.addAll(b2);     
-      return answer;
    }
       
 }
