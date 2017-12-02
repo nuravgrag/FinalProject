@@ -54,7 +54,7 @@ public class IntArrayBag implements Cloneable
    	int N = 3000000;
     IntArrayBag bag1 = new IntArrayBag(10);
 
-        //Analyze IntArrayBag Part A
+     // add method analysis
     long start1 = System.currentTimeMillis();
     for (int i = 1; i <= N; i++) {
       bag1.add(i);
@@ -62,6 +62,16 @@ public class IntArrayBag implements Cloneable
     long stop1 = System.currentTimeMillis();
     long total1 = stop1 - start1;
     System.out.println("runtime = " + total1 + " When N = " + N);
+
+    // remove method analysis
+    long start2 = System.currentTimeMillis();
+    for(int i = 1; i <= N; i++) {
+    	bag1.remove(i);
+    }
+    long stop2 = System.currentTimeMillis();
+    long total2 = stop2 - start2;
+    System.out.println("runtime = " + total2 + " When N = " + N );
+    
 
 
 
