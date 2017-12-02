@@ -61,9 +61,9 @@ public class IntArrayBag implements Cloneable
     }
     long stop1 = System.currentTimeMillis();
     long total1 = stop1 - start1;
-    System.out.println("runtime Array Part A= " + total1 + " When N = " + N);
+    System.out.println("runtime = " + total1 + " When N = " + N);
 
-    
+
 
    }
 
@@ -135,15 +135,20 @@ public class IntArrayBag implements Cloneable
       {  // Ensure twice as much space as we need.
          ensureCapacity((manyItems + 1)*2);
       }
-
-      int i = data.length;
-      while((i < 0) && (element < data[i-1])) {
-      	data[i] = data[i-1];
-      	i = i - 1;
+      if(manyItems == 0) {
+      	data[0] = element;
+      	manyItems++;
       }
-
-      data[i] = element;
-      manyItems++;
+      else {
+	      int i = manyItems-1;
+	      while((i > 1) && (element < data[i-1])) {
+	      	data[i] = data[i-1];
+	      	i = i - 1;
+	      }
+	      //System.out.println("here: " + i);
+	      data[i] = element;
+	      manyItems++;
+	  }
    }
 
 
@@ -176,7 +181,7 @@ public class IntArrayBag implements Cloneable
       System.arraycopy(addend.data, 0, data, manyItems, addend.manyItems);
       manyItems += addend.manyItems;
 
-      data.mergesortArrayBag(data, 0, data.length);
+      mergesortArrayBag(data, 0, manyItems);
    }   
    
    
@@ -388,6 +393,43 @@ public class IntArrayBag implements Cloneable
       for (i = 0; i < n1+n2; i++)
          data[first + i] = temp[i];
    }
+
+   	public static void print(int[ ] data) {
+		for (int i = 0; i < data.length; i++)
+			System.out.print("[" + i + "]\t");
+		System.out.println();
+		for (int i = 0; i < data.length; i++)
+			System.out.print(data[i] + "\t");
+		System.out.println( );
+	}
+
+	// Print merged subarray
+	public static void print1(int[ ] data, int first, int n) {
+		System.out.println("Merged...");
+		for (int i = first; i < first + n; i++)
+			System.out.print("[" + i + "]\t");
+		System.out.println();
+		for (int i = first; i < first + n; i++)
+			System.out.print(data[i] + "\t");
+		System.out.println( );
+	}
+
+	// Print divided array, indicating the location of the division
+	public static void print2(int[ ] data, int first, int n1, int n2) {
+		System.out.println("Dividing...");
+		for (int i = first; i < first + n1; i++)
+			System.out.print("[" + i + "]\t");
+		System.out.print(" | ");
+		for (int i = first + n1; i < first + n1 + n2; i++)
+			System.out.print("[" + i + "]\t");
+		System.out.println();
+		for (int i = first; i < first + n1; i++)
+			System.out.print(data[i] + "\t");
+		System.out.print(" | ");
+		for (int i = first + n1; i < first + n1 + n2; i++)
+			System.out.print(data[i] + "\t");
+		System.out.println( );
+	}
 
       
 
