@@ -51,6 +51,16 @@ public class IntLinkedBag implements Cloneable
       head = null;
       manyNodes = 0;
    }
+
+
+   //gets an element based on the index
+   public int getIndex(int i) {
+      IntNode trav = head;
+      for(int j = 0; j < i; j++)
+         trav = trav.getLink();
+
+      return trav.getData();
+   }
         
  
    /**
