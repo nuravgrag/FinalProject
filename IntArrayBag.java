@@ -71,19 +71,23 @@ public class IntArrayBag implements Cloneable
 	for (int i = 1; i <= N; i++) 
 		bag2.add(i);
 
-
+	// perform analysis of bag1 
 	long start2 = System.currentTimeMillis();
-	bag1.addAll(bag2);
+	bag1.addAll(bag2); //addall is here. 
 	long stop2 = System.currentTimeMillis();
 	long total2 = stop2 - start2;
 	System.out.println("addAll method runtime = " + total2);
+	int size = bag1.size();
 
-    // for(int i = 1; i <= N; i++) {
-    // 	bag1.remove(i);
-    // }
-    // long stop2 = System.currentTimeMillis();
-    // long total2 = stop2 - start2;
-    // System.out.println("runtime = " + total2 + " When N = " + N );
+
+	// remove method analysis
+	long start3 = System.currentTimeMillis();
+    for(int i = 1; i <= size; i++) {
+    	bag1.remove(i);
+    }
+    long stop3 = System.currentTimeMillis();
+    long total3 = stop3 - start3;
+    System.out.println("remove method runtime = " + total3 + " When N is " + N);
     
 
 
@@ -313,11 +317,12 @@ public class IntArrayBag implements Cloneable
       // First, set index to the location of target in the data array,
       // which could be as small as 0 or as large as manyItems-1; If target
       // is not in the array, then index will be set equal to manyItems;
-      for (index = 0; (index < manyItems) && (target != data[index]); index++)  {
+      
+      for (index = 0; (index < manyItems) && (target != data[index]); index++)  
          //System.out.println("index" + index);
          // No work is needed in the body of this for-loop.
          ;
-     }
+     
          
       if (index == manyItems)
          // The target was not found, so nothing is removed.
