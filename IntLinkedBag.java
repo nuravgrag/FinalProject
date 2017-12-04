@@ -76,23 +76,6 @@ public class IntLinkedBag implements Cloneable
          System.out.println("Part C IntLinkedBag: N = " + n + ", time = " + totalTime + "msec");
 
       }
-      lbag = new IntLinkedBag();
-      for(int i = 0; i < 10; i++) {
-         lbag.add(i);
-      }
-      addlbag = new IntLinkedBag();
-      addlbag.add(4);
-      addlbag.add(72);
-      addlbag.add(23);
-      addlbag.add(56);
-      addlbag.add(13);
-      addlbag.add(17);
-      lbag.addAll(addlbag);
-      IntNode trav = lbag.getHead();
-      while(trav != null) {
-         System.out.println(trav.getData());
-         trav = trav.getLink();
-      }
 
    }
 
