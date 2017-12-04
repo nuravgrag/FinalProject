@@ -51,7 +51,7 @@ public class IntArrayBag implements Cloneable
 
    // main method
    public static void main(String[] args) {
-   	int N = 3000000;
+   	int N = 3000;
     IntArrayBag bag1 = new IntArrayBag(10);
 
      // add method analysis
@@ -61,16 +61,29 @@ public class IntArrayBag implements Cloneable
     }
     long stop1 = System.currentTimeMillis();
     long total1 = stop1 - start1;
-    System.out.println("runtime = " + total1 + " When N = " + N);
+    System.out.println("add method runtime = " + total1 + " When N = " + N);
 
-    // remove method analysis
-    long start2 = System.currentTimeMillis();
-    for(int i = 1; i <= N; i++) {
-    	bag1.remove(i);
-    }
-    long stop2 = System.currentTimeMillis();
-    long total2 = stop2 - start2;
-    System.out.println("runtime = " + total2 + " When N = " + N );
+
+    // addAll method analysis
+	
+	// create a new bag
+	IntArrayBag bag2 = new IntArrayBag(10);
+	for (int i = 1; i <= N; i++) 
+		bag2.add(i);
+
+
+	long start2 = System.currentTimeMillis();
+	bag1.addAll(bag2);
+	long stop2 = System.currentTimeMillis();
+	long total2 = stop2 - start2;
+	System.out.println("addAll method runtime = " + total2);
+
+    // for(int i = 1; i <= N; i++) {
+    // 	bag1.remove(i);
+    // }
+    // long stop2 = System.currentTimeMillis();
+    // long total2 = stop2 - start2;
+    // System.out.println("runtime = " + total2 + " When N = " + N );
     
 
 
@@ -300,9 +313,11 @@ public class IntArrayBag implements Cloneable
       // First, set index to the location of target in the data array,
       // which could be as small as 0 or as large as manyItems-1; If target
       // is not in the array, then index will be set equal to manyItems;
-      for (index = 0; (index < manyItems) && (target != data[index]); index++)
+      for (index = 0; (index < manyItems) && (target != data[index]); index++)  {
+         //System.out.println("index" + index);
          // No work is needed in the body of this for-loop.
          ;
+     }
          
       if (index == manyItems)
          // The target was not found, so nothing is removed.
