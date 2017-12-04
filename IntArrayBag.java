@@ -113,7 +113,13 @@ public class IntArrayBag implements Cloneable
          ensureCapacity((manyItems + 1)*2);
       }
 
-      data[manyItems] = element;
+      int i = data.length;
+      while((i < 0) && (element < data[i-1])) {
+      	data[i] = data[i-1];
+      	i = i - 1;
+      }
+
+      data[i] = element;
       manyItems++;
    }
 
