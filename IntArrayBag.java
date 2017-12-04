@@ -87,6 +87,11 @@ public class IntArrayBag implements Cloneable
     }
     long stop3 = System.currentTimeMillis();
     long total3 = stop3 - start3;
+
+
+    System.out.println("the run time for each method is ...");
+    System.out.println("add method runtime = " + total1 + " When N = " + N);
+	System.out.println("addAll method runtime = " + total2 + "When N = " + N);
     System.out.println("remove method runtime = " + total3 + " When N is " + N);
     
 
