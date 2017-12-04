@@ -31,6 +31,71 @@
 ******************************************************************************/
 public class IntLinkedBag implements Cloneable
 {
+
+   public static void main(String[] args) {
+      int n = 3000;
+      long startTime, stopTime, totalTime;
+      //Part A IntLinkedBag
+      IntLinkedBag lbag = new IntLinkedBag();
+      IntLinkedBag addlbag = new IntLinkedBag();
+      
+      for(n = 1000; n < 6000; n += 1000) {
+         addlbag = new IntLinkedBag();
+         for(int i = 0; i < n/10; i++) {
+            addlbag.add(i);
+         }
+         System.out.println("N = " + n);
+         startTime = System.currentTimeMillis();
+         for(int i = 0; i < n; i++) {
+            lbag.add(i);
+         }
+         stopTime = System.currentTimeMillis();
+         totalTime = stopTime - startTime;
+         System.out.println("Part A IntLinkedBag: N = " + n + ", time = " + totalTime + "msec");
+
+         //Part B IntLinkedBag Remove
+         startTime = System.currentTimeMillis();
+         lbag.remove(0);
+         for(int i = n - 1; i > 0; i--) {
+            if(!lbag.remove(i)) {
+               System.out.println("Element does not exist: " + i);
+            }
+         }
+         stopTime = System.currentTimeMillis();
+         totalTime = stopTime - startTime;
+         System.out.println("Part B IntLinkedBag: N = " + n + ", time = " + totalTime + "msec");
+
+         //Part C addall
+         for(int i = 0; i < n; i++) {
+            lbag.add(i);
+         }
+         startTime = System.currentTimeMillis();
+         lbag.addAll(addlbag);
+         stopTime = System.currentTimeMillis();
+         totalTime = stopTime - startTime;
+         System.out.println("Part C IntLinkedBag: N = " + n + ", time = " + totalTime + "msec");
+
+      }
+      lbag = new IntLinkedBag();
+      for(int i = 0; i < 10; i++) {
+         lbag.add(i);
+      }
+      addlbag = new IntLinkedBag();
+      addlbag.add(4);
+      addlbag.add(72);
+      addlbag.add(23);
+      addlbag.add(56);
+      addlbag.add(13);
+      addlbag.add(17);
+      lbag.addAll(addlbag);
+      IntNode trav = lbag.getHead();
+      while(trav != null) {
+         System.out.println(trav.getData());
+         trav = trav.getLink();
+      }
+
+   }
+
    // Invariant of the IntLinkedBag class:
    //   1. The elements in the bag are stored on a linked list.
    //   2. The head reference of the list is in the instance variable 
@@ -54,12 +119,8 @@ public class IntLinkedBag implements Cloneable
 
 
    //gets an element based on the index
-   public int get(int i) {
-      IntNode trav = head;
-      for(int j = 0; j < i; j++)
-         trav = trav.getLink();
-
-      return trav.getData();
+   public IntNode getHead() {
+      return head;
    }
 
    //gets an element based on the index
@@ -83,14 +144,20 @@ public class IntLinkedBag implements Cloneable
    **/
    public void add(int element)
    {
-      if(manyNodes == 0)
+      if(manyNodes == 0) {
          head = new IntNode(element, null);
+         manyNodes++;
+         //System.out.println("here1");
+      }
       else {
+         //System.out.println("here2");
          IntNode trav = head;
          while(trav.getLink() != null && trav.getData() < element) {
             trav = trav.getLink();
+            //System.out.println("here2");
          }
          trav.addNodeAfter(element);
+         //System.out.println("here2");
          manyNodes++;
       }
    }
@@ -124,7 +191,7 @@ public class IntLinkedBag implements Cloneable
          manyNodes += addend.manyNodes;
       }
 
-      MergesortLinkedList.MergesortLinkedList(this, 0, manyNodes);
+      head = mergeSort(head);
 
    }
 
@@ -250,6 +317,80 @@ public class IntLinkedBag implements Cloneable
    {
       return manyNodes;
    }
+
+   private IntNode mergeSort(IntNode h) 
+    {
+        // Base case : if head is null
+      //System.out.println("here");
+        if (h == null || h.getLink() == null)
+        {
+            return h;
+        }
+        //System.out.println("here2");
+        // get the middle of the list
+        IntNode middle = getMiddle(h);
+        IntNode nextofmiddle = middle.getLink();
+ 
+        // set the next of middle node to null
+        middle.setLink(null);
+ 
+        // Apply mergeSort on left list
+        IntNode left = mergeSort(h);
+ 
+        // Apply mergeSort on right list
+        IntNode right = mergeSort(nextofmiddle);
+ 
+        // Merge the left and right lists
+        IntNode sortedlist = sortedMerge(left, right);
+        return sortedlist;
+    }
+ 
+    // Utility function to get the middle of the linked list
+    private IntNode getMiddle(IntNode h) 
+    {
+        //Base case
+        if (h == null)
+            return h;
+        IntNode fastptr = h.getLink();
+        IntNode slowptr = h;
+         
+        // Move fastptr by two and slow ptr by one
+        // Finally slowptr will point to middle node
+        while (fastptr != null)
+        {
+            fastptr = fastptr.getLink();
+            if(fastptr!=null)
+            {
+                slowptr = slowptr.getLink();
+                fastptr=fastptr.getLink();
+            }
+        }
+        return slowptr;
+    }
+
+    private IntNode sortedMerge(IntNode a, IntNode b) 
+    {
+        IntNode result = null;
+        /* Base cases */
+        if (a == null)
+            return b;
+        if (b == null)
+            return a;
+ 
+        /* Pick either a or b, and recur */
+        if (a.getData() <= b.getData()) 
+        {
+            result = a;
+            result.setLink(sortedMerge(a.getLink(), b));
+        } 
+        else
+        {
+            result = b;
+            result.setLink(sortedMerge(a, b.getLink()));
+        }
+        return result;
+ 
+    }
       
 }
            
