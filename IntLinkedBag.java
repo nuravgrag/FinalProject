@@ -39,12 +39,14 @@ public class IntLinkedBag implements Cloneable
       IntLinkedBag lbag = new IntLinkedBag();
       IntLinkedBag addlbag = new IntLinkedBag();
       
-      for(n = 1000; n < 6000; n += 1000) {
+      for(n = 10000; n < 60000; n += 10000) {
          addlbag = new IntLinkedBag();
          for(int i = 0; i < n/10; i++) {
             addlbag.add(i);
          }
          System.out.println("N = " + n);
+
+         //Part A IntLinkedBag add
          startTime = System.currentTimeMillis();
          for(int i = 0; i < n; i++) {
             lbag.add(i);
@@ -69,11 +71,13 @@ public class IntLinkedBag implements Cloneable
          for(int i = 0; i < n; i++) {
             lbag.add(i);
          }
-         startTime = System.currentTimeMillis();
-         lbag.addAll(addlbag);
-         stopTime = System.currentTimeMillis();
-         totalTime = stopTime - startTime;
-         System.out.println("Part C IntLinkedBag: N = " + n + ", time = " + totalTime + "msec");
+         if(n < 30000) {
+           startTime = System.currentTimeMillis();
+           lbag.addAll(addlbag);
+           stopTime = System.currentTimeMillis();
+           totalTime = stopTime - startTime;
+           System.out.println("Part C IntLinkedBag: N = " + n + ", time = " + totalTime + "msec");
+         }
 
       }
 

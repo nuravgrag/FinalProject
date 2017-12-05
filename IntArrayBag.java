@@ -52,50 +52,42 @@ public class IntArrayBag implements Cloneable
    // main method
    public static void main(String[] args) {
    	int N = 3000;
-    IntArrayBag bag1 = new IntArrayBag(10);
+      long start, stop, total;
+      IntArrayBag bag1 = new IntArrayBag();
 
      // add method analysis
-    long start1 = System.currentTimeMillis();
-    for (int i = 1; i <= N; i++) {
-      bag1.add(i);
-    }
-    long stop1 = System.currentTimeMillis();
-    long total1 = stop1 - start1;
-    System.out.println("add method runtime = " + total1 + " When N = " + N);
-
-
-    // addAll method analysis
-	
-	// create a new bag
-	IntArrayBag bag2 = new IntArrayBag(10);
-	for (int i = 1; i <= N; i++) 
-		bag2.add(i);
-
-	// perform analysis of bag1 
-	long start2 = System.currentTimeMillis();
-	bag1.addAll(bag2); //addall is here. 
-	long stop2 = System.currentTimeMillis();
-	long total2 = stop2 - start2;
-	System.out.println("addAll method runtime = " + total2);
-	int size = bag1.size();
-
-
-	// remove method analysis
-	long start3 = System.currentTimeMillis();
-    for(int i = 1; i <= size; i++) {
-    	bag1.remove(i);
-    }
-    long stop3 = System.currentTimeMillis();
-    long total3 = stop3 - start3;
-
-
-    System.out.println("the run time for each method is ...");
-    System.out.println("add method runtime = " + total1 + " When N = " + N);
-	System.out.println("addAll method runtime = " + total2 + "When N = " + N);
-    System.out.println("remove method runtime = " + total3 + " When N is " + N);
     
+    for (N = 10000; N < 60000; N += 10000) {
+      IntArrayBag bag2 = new IntArrayBag();
+      for (int i = 0; i < N/10; i++) 
+         bag2.add(i);
+      System.out.println("N = " + N);
+      // Part A: add method
+      start = System.currentTimeMillis();
+      for(int i = N-1; i > -1; i--) {
+         bag1.add(i);
+      }
+      stop = System.currentTimeMillis();
+      total = stop - start;
+      System.out.println("Part A IntArrayBag: N = " + N + ", time = " + total + "msec");
 
+      // Part B: remove method
+      start = System.currentTimeMillis();
+      for(int i = N-1; i > -1; i--) {
+         bag1.remove(i);
+      }
+      stop = System.currentTimeMillis();
+      total = stop - start;
+      System.out.println("Part B IntArrayBag: N = " + N + ", time = " + total + "msec");
 
+      // Part C: remove method
+      start = System.currentTimeMillis();
+      bag1.addAll(bag2);
+      stop = System.currentTimeMillis();
+      total = stop - start;
+      System.out.println("Part C IntArrayBag: N = " + N + ", time = " + total + "msec");
+      
+      }
 
    }
 
@@ -384,13 +376,13 @@ public class IntArrayBag implements Cloneable
          n1 = n / 2;
          n2 = n - n1;
 
-         print2(data, first, n1, n2);
+         //print2(data, first, n1, n2);
          mergesortArrayBag(data, first, n1);      // Sort data[first] through data[first+n1-1]
          mergesortArrayBag(data, first + n1, n2); // Sort data[first+n1] to the end
 
          // Merge the two sorted halves.
          merge(data, first, n1, n2);
-         print1(data, first, n1 + n2);
+         //print1(data, first, n1 + n2);
       }
    } 
    private static void merge(int[ ] data, int first, int n1, int n2)
@@ -428,15 +420,15 @@ public class IntArrayBag implements Cloneable
       for (i = 0; i < n1+n2; i++)
          data[first + i] = temp[i];
    }
-
+   /*
    	public static void print(int[ ] data) {
 		for (int i = 0; i < data.length; i++)
 			System.out.print("[" + i + "]\t");
 		System.out.println();
 		for (int i = 0; i < data.length; i++)
 			System.out.print(data[i] + "\t");
-		System.out.println( );
-	}
+		System.out.println( ); */
+	//}
 
 	// Print merged subarray
 	public static void print1(int[ ] data, int first, int n) {
@@ -465,8 +457,6 @@ public class IntArrayBag implements Cloneable
 			System.out.print(data[i] + "\t");
 		System.out.println( );
 	}
-
-      
 
 }
            
